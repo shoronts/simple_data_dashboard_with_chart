@@ -1,0 +1,29 @@
+#navbarSupportedContent ul li a {
+    color: #ffffff;
+}
+.dropdown-menu.bg-dark li .dropdown-item:hover {
+    color: #000000!important;
+}
+#navbarSupportedContent {
+    margin-left: 150px;
+}
+.nav-item.active {
+    background-color: #000000;
+}
+.nav-item {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.navbar{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+@media screen and (max-width:992px) {
+    #navbarSupportedContent {
+        margin-left: 0px;
+    }
+    #navbarSupportedContent form{
+        margin-bottom: 20px;
+    }
+}

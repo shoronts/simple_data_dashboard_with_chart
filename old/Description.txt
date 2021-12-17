@@ -1,0 +1,9 @@
+The code builds a plot and a table based on pandas datar frame and renders it on a webpage.
+
+Line 59 of simple_flask_app2 file is where I need help with Ajax.
+
+The template rendered has 2 tables and 2 time series plots
+
+The first table and plot should be untocuhed.
+
+I want dropdown in the rendered page where I can select the column of the data frame and update second table and second graph

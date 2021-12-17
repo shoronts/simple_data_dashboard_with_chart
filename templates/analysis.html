@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block css %}
+<script src="{{ url_for('static', filename='js/chart.min.js') }}"></script>
+{% endblock %}
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <label class="d-block fw-bolder" for="alpha">Select Alpha:</label>
+                <select name="alpha" id="alpha" class="form-control">
+                    {% for list in lists %}
+                    <option value="{{list}}">{{list}}</option>
+                    {% endfor %}
+                </select>
+                <div class="text-center mt-5">
+                    <a target="blank" href="{{ url_for('download_data') }}" class="btn btn-primary">Download All</a>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row my-5">
+            <div class="col-md-3">
+                <ul class="list-group list-group-numbered">
+                    <span class="list-group-item">No:</span>
+                    {% for date in dates %}
+                        <li class="list-group-item"></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <li class="list-group-item">Dates</li>
+                <ul class="list-group">
+                    {% for date in dates %}
+                        <li class="list-group-item">{{ date }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul class="list-group">
+                    <li class="list-group-item">Values</li>
+                    {% for value in values %}
+                        <li class="list-group-item">{{ value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-5 mb-5">
+    <div class="container" id="ReqChangeNew">
+        <canvas id="DataChart"></canvas>
+    </div>
+</section>
+{% endblock %}
+{% block js %}
+    <script>
+        // User Data Change by AJAX
+        let userRequestToChange = document.querySelector('#alpha'),
+            sendAjaxToServer = new XMLHttpRequest();
+        userRequestToChange.addEventListener('change', function () {
+            sendAjaxToServer.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let getNewData = JSON.parse(this.response);
+                    renderNewChart(getNewData["values"],getNewData["dates"]);
+                }
+            };
+            sendAjaxToServer.open("POST", "{{ url_for('dashboard') }}", true);
+            sendAjaxToServer.setRequestHeader('Content-type', 'application/json;');
+            sendAjaxToServer.send(JSON.stringify({changeData: this.value}));
+        })
+
+        // Start Chart
+        const data = {
+            labels: [{% for date in dates %}'{{date}}',{% endfor %}],
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [{% for value in values %}{{ value }},{% endfor %}]
+            }]
+        };
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+        let ctx = new Chart(document.getElementById('DataChart'), config);
+
+        // Change Chart Data By API
+        function renderNewChart(ApiDataValue, ApiDataDates){
+            const data2 = {
+                labels: ApiDataDates,
+                datasets: [{
+                    label: 'My First dataset',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ApiDataValue
+                }]
+            };
+            const config2 = {
+                type: 'line',
+                data: data2,
+                options: {}
+            };
+            ctx.destroy();
+            ctx = new Chart(document.getElementById('DataChart'), config2);
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block css %}
+    <style>
+        #alpha option {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<section class="py-5">
+    <div class="container py-5">
+        <form id="firstForm" class="d-flex align-items-center justify-content-between" method="post"
+            action="{{ url_for('dashboard') }}">
+            <div>
+                <label class="d-block fw-bolder" for="alpha">Select Alpha:</label>
+                <select name="alpha" id="alpha" class="form-control" style="width:260px">
+                    <option value="0">--Select an option--</option>
+                    <option value="Dashboard 1">Dashboard 1</option>
+                </select>
+            </div>
+            <div class="d-none" id="seconderyValue">
+                <label class="d-block fw-bolder" for="alpha">average1:</label>
+                <input type="number" class="form-control" value="20" name="average" id="average">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
+{% block js %}
+<script>
+    window.addEventListener("DOMContentLoaded", (e) => {
+        // Selest Data
+        let allDrop = document.querySelector('#alpha'),
+            seconderyValue = document.querySelector('#seconderyValue');
+        allDrop.addEventListener('change', function () {
+            if (this.value != 0) {
+                seconderyValue.classList.remove('d-none');
+            } else {
+                seconderyValue.classList.add('d-none');
+            }
+        })
+
+        // Submit Form
+        let firstForm = document.querySelector('#firstForm'),
+            sendAjaxToServer = new XMLHttpRequest();
+        firstForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            sendAjaxToServer.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.open();
+                    document.write(this.response);
+                    document.close();
+                }
+            };
+            sendAjaxToServer.open("POST", "{{ url_for('dashboard') }}", true);
+            sendAjaxToServer.setRequestHeader('Content-type', 'application/json;');
+            let data = {
+                alpha: allDrop.value,
+                average: document.querySelector('#average').value
+            };
+            sendAjaxToServer.send(JSON.stringify(data));
+        });
+    })
+</script>
+{% endblock %}

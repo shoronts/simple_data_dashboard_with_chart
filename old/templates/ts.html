@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title> Dashboard </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      background-image: url('/static/images/1104816.jpg');
+      background-position: full;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
+  <script>
+    $(document).ready(function () {
+
+      $('div[id^=div]').hide();
+
+      $("#stlist").on('change', function () {
+        if (this.value == 'MovAvg') {
+          $('div[id^=div]').hide();
+          $('#div1_avg').show();
+        }
+
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <form method="post" action="/BacktestAnalysis">
+      <div class="form-group row">
+        <div class="col-xs-3">
+          <label for="ex2">Select Alpha</label>
+          <select class="form-control" name="myDropDown1" id="stlist" style="width:260px">
+            <option value="0">--Select an option--</option>
+            <option value="MovAvg">Dashboard 1</option>
+          </select>
+        </div>
+        <div class="form-group row">
+          <div id="div1_avg" class="col-xs-3">
+            <label for="number"> average1</label> <br>
+            <input id="avg" class="form-control" style="width:150px" type="number" name="ma1" min="5" value=20> <br>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Hello, world! | {% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css') }}">
+    <link rel='shortcut icon' type='image/x-icon' href="{{url_for('static', filename='media_assets/favicon.png') }}" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
+    <!-- Dynamic CSS -->
+    {% block css %}{% endblock %}
+
+</head>
+
+<body >
+    <header>
+        <section class="bg-dark">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand text-white" href="{{ url_for('home') }}">LOGO</a>
+
+                        <!-- Mobile Menu Button -->
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <!-- Main Menu -->
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item active">
+                                    <a class="nav-link" aria-current="page" href="{{ url_for('home') }}">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Dropdown
+                                    </a>
+                                    <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <!-- <li>
+                                            <hr class="dropdown-divider">
+                                        </li> -->
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">Contact</a>
+                                </li>
+                            </ul>
+                            <!-- Search Bar -->
+                            <form class="d-flex">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </section>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer>
+        <section class="bg-dark py-2">
+            <div class="container">
+                <p class="mb-0 fs-6 text-white text-center">&copy; <a class="text-decoration-none text-white" href="https://squaretechit.com">Square Tech IT</a></p>
+            </div>
+        </section>
+    </footer>
+
+    <!-- Optional JavaScript; Bootstrap Bundle with Popper! -->
+    <script src="{{ url_for('static', filename='js/bootstrap_js/bootstrap.bundle.min.js' ) }}"></script>
+
+    <!-- Dynamic JS -->
+    {% block js %}{% endblock %}
+
+</body>
+
+</html>
