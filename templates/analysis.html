@@ -67,7 +67,7 @@
                     renderNewChart(getNewData["values"],getNewData["dates"]);
                 }
             };
-            sendAjaxToServer.open("POST", "{{ url_for('dashboard') }}", true);
+            sendAjaxToServer.open("POST", "{{ url_for('api_data') }}", true);
             sendAjaxToServer.setRequestHeader('Content-type', 'application/json;');
             sendAjaxToServer.send(JSON.stringify({changeData: this.value}));
         })
